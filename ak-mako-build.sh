@@ -3,7 +3,7 @@
 clear
 
 BASE_AK_VER="AK"
-VER=".002"
+VER=".003"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
@@ -44,7 +44,7 @@ echo "CWM_MOVE="$CWM_MOVE
 echo "RAM_DIR="$RAM_DIR
 echo
 
-make -j4
+make -j3 > /dev/null
 
 rm `echo $MODULES_DIR"/*"`
 find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
