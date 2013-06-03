@@ -19,19 +19,29 @@
 #include <linux/module.h>
 #include <linux/init.h>
 #include <linux/slab.h>
+#include <linux/version.h>
 
 enum { ASYNC, SYNC };
 
 /* Tunables */
-static const int sync_read_expire = (HZ / 16) * 9;	/* max time before a sync read is submitted. */
-static const int sync_write_expire = (HZ / 16) * 28;	/* max time before a sync write is submitted. */
 
-static const int async_read_expire = (HZ / 16) * 55;	/* ditto for async, these limits are SOFT! */
-static const int async_write_expire = (HZ / 16) * 192;	/* ditto for async, these limits are SOFT! */
+/* max time before a sync read is submitted. */
+static const int sync_read_expire  = (HZ / 16) * 9;
+/* max time before a sync write is submitted. */
+static const int sync_write_expire = (HZ / 16) * 28;
 
-static const int writes_starved = 1;		/* max times reads can starve a write */
-static const int fifo_batch     = 1;		/* # of sequential requests treated as one
-						   by the above parameters. For throughput. */
+/* ditto for async, these limits are SOFT! */
+static const int async_read_expire  =  (HZ / 16) * 55;
+/* ditto for async, these limits are SOFT! */
+static const int async_write_expire = (HZ / 16) * 192;
+
+/* max times reads can starve a write */
+static const int writes_starved = 1;
+/*
+ * # of sequential requests treated as one
+ * by the above parameters. For throughput.
+ */
+static const int fifo_batch     = 1;
 
 /* Elevator data */
 struct sio_data {
@@ -80,16 +90,6 @@ sio_add_request(struct request_queue *q, struct request *rq)
 	 */
 	rq_set_fifo_time(rq, jiffies + sd->fifo_expire[sync][data_dir]);
 	list_add_tail(&rq->queuelist, &sd->fifo_list[sync][data_dir]);
-}
-
-static int
-sio_queue_empty(struct request_queue *q)
-{
-	struct sio_data *sd = q->elevator->elevator_data;
-
-	/* Check if fifo lists are empty */
-	return list_empty(&sd->fifo_list[SYNC][READ]) && list_empty(&sd->fifo_list[SYNC][WRITE]) &&
-	       list_empty(&sd->fifo_list[ASYNC][READ]) && list_empty(&sd->fifo_list[ASYNC][WRITE]);
 }
 
 static struct request *
@@ -318,7 +318,8 @@ SHOW_FUNCTION(sio_writes_starved_show, sd->writes_starved, 0);
 #undef SHOW_FUNCTION
 
 #define STORE_FUNCTION(__FUNC, __PTR, MIN, MAX, __CONV)			\
-static ssize_t __FUNC(struct elevator_queue *e, const char *page, size_t count)	\
+static ssize_t __FUNC(struct elevator_queue *e, const char *page,	\
+							size_t count)	\
 {									\
 	struct sio_data *sd = e->elevator_data;			\
 	int __data;							\
@@ -333,10 +334,14 @@ static ssize_t __FUNC(struct elevator_queue *e, const char *page, size_t count)	
 		*(__PTR) = __data;					\
 	return ret;							\
 }
-STORE_FUNCTION(sio_sync_read_expire_store, &sd->fifo_expire[SYNC][READ], 0, INT_MAX, 1);
-STORE_FUNCTION(sio_sync_write_expire_store, &sd->fifo_expire[SYNC][WRITE], 0, INT_MAX, 1);
-STORE_FUNCTION(sio_async_read_expire_store, &sd->fifo_expire[ASYNC][READ], 0, INT_MAX, 1);
-STORE_FUNCTION(sio_async_write_expire_store, &sd->fifo_expire[ASYNC][WRITE], 0, INT_MAX, 1);
+STORE_FUNCTION(sio_sync_read_expire_store, &sd->fifo_expire[SYNC][READ], 0,
+								INT_MAX, 1);
+STORE_FUNCTION(sio_sync_write_expire_store, &sd->fifo_expire[SYNC][WRITE], 0,
+								INT_MAX, 1);
+STORE_FUNCTION(sio_async_read_expire_store, &sd->fifo_expire[ASYNC][READ], 0,
+								INT_MAX, 1);
+STORE_FUNCTION(sio_async_write_expire_store, &sd->fifo_expire[ASYNC][WRITE], 0,
+								INT_MAX, 1);
 STORE_FUNCTION(sio_fifo_batch_store, &sd->fifo_batch, 0, INT_MAX, 0);
 STORE_FUNCTION(sio_writes_starved_store, &sd->writes_starved, 0, INT_MAX, 0);
 #undef STORE_FUNCTION
@@ -374,7 +379,9 @@ static struct elevator_type iosched_sio = {
 static int __init sio_init(void)
 {
 	/* Register elevator */
-	return elv_register(&iosched_sio);
+	elv_register(&iosched_sio);
+
+	return 0;
 }
 
 static void __exit sio_exit(void)
@@ -389,3 +396,4 @@ module_exit(sio_exit);
 MODULE_AUTHOR("Miguel Boton");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Simple IO scheduler");
+MODULE_VERSION("0.3");
