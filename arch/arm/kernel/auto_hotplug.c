@@ -33,6 +33,7 @@
 #include <linux/cpu.h>
 #include <linux/workqueue.h>
 #include <linux/sched.h>
+#include <linux/slab.h>
 #include <mach/cpufreq.h>
 
 #ifdef CONFIG_HAS_EARLYSUSPEND
@@ -272,7 +273,7 @@ static void hotplug_decision_work_fn(struct work_struct *work)
 
 }
 
-static void hotplug_online_all_work_fn(struct work_struct *work)
+static void __cpuinit hotplug_online_all_work_fn(struct work_struct *work)
 {
 	int cpu;
 	for_each_possible_cpu(cpu) {
@@ -303,7 +304,7 @@ static void hotplug_offline_all_work_fn(struct work_struct *work)
 	}
 }
 
-static void hotplug_online_single_work_fn(struct work_struct *work)
+static void __cpuinit hotplug_online_single_work_fn(struct work_struct *work)
 {
 	int cpu;
 
@@ -444,7 +445,7 @@ static struct early_suspend auto_hotplug_suspend = {
 
 static int __init auto_hotplug_init(void)
 {
-	pr_info("auto_hotplug: v0.220 by _thalamus\n");
+	pr_info("auto_hotplug: v0.22x by _thalamus\n");
 	pr_info("auto_hotplug: %d CPUs detected\n", CPUS_AVAILABLE);
 
 	max_online_cpus = num_possible_cpus();
