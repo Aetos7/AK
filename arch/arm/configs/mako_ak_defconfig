@@ -35,6 +35,11 @@ CONFIG_HAVE_IRQ_WORK=y
 CONFIG_IRQ_WORK=y
 
 #
+# Ak Setup
+#
+CONFIG_ARM_AUTO_HOTPLUG=y
+
+#
 # General setup
 #
 CONFIG_EXPERIMENTAL=y
