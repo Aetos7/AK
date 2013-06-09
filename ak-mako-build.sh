@@ -3,7 +3,7 @@
 clear
 
 BASE_AK_VER="AK"
-VER=".024"
+VER=".030.MIUI"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
