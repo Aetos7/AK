@@ -49,7 +49,8 @@ make -j3 > /dev/null
 rm `echo $MODULES_DIR"/*"`
 find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
 cd $INIT_DIR
-find . | cpio -o -H newc | gzip -9 > ../initrd.img
+#find . | cpio -o -H newc | gzip -9 > ../initrd.img
+find . | cpio -o -H newc | xz --check=crc32 --lzma2=dict=1MiB > ../initrd.img
 
 cd ../
 cp -vr $ZIMAGE_DIR/zImage .
