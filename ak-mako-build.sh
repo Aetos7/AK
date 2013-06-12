@@ -2,8 +2,8 @@
 
 clear
 
-BASE_AK_VER="AK"
-VER=".023"
+BASE_AK_VER="VERT.KERNEL"
+VER=".001"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
