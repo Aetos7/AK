@@ -45,16 +45,16 @@ unsigned int blue_mids_val = 0;
 /*
  * Blacks for RED, GREEN and BLUE
  */
-unsigned int red_blacks_val = 255;
-unsigned int green_blacks_val = 255;
-unsigned int blue_blacks_val = 255;
+unsigned int red_blacks_val = 188;
+unsigned int green_blacks_val = 118;
+unsigned int blue_blacks_val = 118;
 
 /*
  * These values are common to the RGB spectrum in this implementation
  */
 unsigned int contrast_val = 0;
 unsigned int brightness_val = 0;
-unsigned int saturation_val = 255;
+unsigned int saturation_val = 118;
 
 /*
  * Sysfs get/set entries
