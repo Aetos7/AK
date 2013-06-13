@@ -3,7 +3,7 @@
 clear
 
 BASE_AK_VER="AK"
-VER=".033.M"
+VER=".034.M"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
