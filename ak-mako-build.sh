@@ -7,7 +7,7 @@ VER=".038.E"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
-export CROSS_COMPILE=${HOME}/android/AK-linaro/4.8.1-2013.05.20130524/bin/arm-linux-gnueabihf-
+export CROSS_COMPILE=${HOME}/android/AK-linaro/4.8.2-2013.06.20130621/bin/arm-linux-gnueabihf-
 #export CROSS_COMPILE=${HOME}/android/AK-linaro/4.7.3-2013.04.20130415/bin/arm-linux-gnueabihf-
 export ARCH=arm
 export SUBARCH=arm
