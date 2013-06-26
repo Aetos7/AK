@@ -3,7 +3,7 @@
 clear
 
 BASE_AK_VER="VERT.KERNEL"
-VER=".002"
+VER=".003"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
